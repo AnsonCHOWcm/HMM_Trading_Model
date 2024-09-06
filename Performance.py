@@ -40,20 +40,44 @@ class performance_review:
         return avg_trade_ret
 
     def annualized_alpha(self):
+
+        if self.freq == 'd':
+            d = 252
+        elif self.freq == 'm':
+            d = 12
+        elif self.freq == 'w':
+            d = 52
+
         cum_daily_return = self.cum_daily_ret()
-        cum_annualized_ret = np.log(cum_daily_return[-1] / cum_daily_return[0]) / len(cum_daily_return) * (252 if self.freq == 'd' else 12)
+        cum_annualized_ret = np.log(cum_daily_return[-1] / cum_daily_return[0]) / len(cum_daily_return) * (d)
         cum_annualized_benchmark_ret = np.log(np.cumprod(np.array(self.benchmark_daily_ret) + 1)[-1] / np.cumprod(np.array(self.benchmark_daily_ret) + 1)[0]) / len(self.benchmark_daily_ret) * (252 if self.freq == 'd' else 12)
         cum_annualized_alpha = cum_annualized_ret - cum_annualized_benchmark_ret
         return cum_annualized_alpha
 
     def annualized_ret(self):
+
+        if self.freq == 'd':
+            d = 252
+        elif self.freq == 'm':
+            d = 12
+        elif self.freq == 'w':
+            d = 52
+
         cum_daily_return = self.cum_daily_ret()
-        cum_annualized_ret = np.log(cum_daily_return[-1] / cum_daily_return[0]) / len(cum_daily_return) * (252 if self.freq == 'd' else 12)
+        cum_annualized_ret = np.log(cum_daily_return[-1] / cum_daily_return[0]) / len(cum_daily_return) * (d)
         return cum_annualized_ret
 
     def annualized_vol(self):
+
+        if self.freq == 'd':
+            d = 252
+        elif self.freq == 'm':
+            d = 12
+        elif self.freq == 'w':
+            d = 52
+
         cum_daily_return = self.cum_daily_ret()
-        cum_annualized_std = (np.log(cum_daily_return[1:] / cum_daily_return[:-1])).std() * math.sqrt((252 if self.freq == 'd' else 12))
+        cum_annualized_std = (np.log(cum_daily_return[1:] / cum_daily_return[:-1])).std() * math.sqrt((d))
         return cum_annualized_std
 
     def sharpe_ratio(self):
